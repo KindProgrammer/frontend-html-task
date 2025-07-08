@@ -3,6 +3,8 @@ import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import logo from '../../assets/logo.png';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { useTheme } from '../../context/ThemeContext';
 
 const routes = [
     { title: 'Home', icon: 'fas-solid fa-house', path: '/' },
@@ -18,7 +20,14 @@ const bottomRoutes = [
     { title: 'Support', icon: 'phone-volume', path: '/support' },
 ];
 
+const SidebarContainer = styled.div`
+    background: ${({ theme }) => theme.sidebarBackground};
+    color: ${({ theme }) => theme.text};
+    width: 300px;
+`
+
 const Sidebar = (props) => {
+    const { theme, toggleTheme } = useTheme();
     const { color } = props;
     const [isOpened, setIsOpened] = useState(false);
     const containerClassnames = classnames('sidebar', { opened: isOpened });
@@ -32,7 +41,7 @@ const Sidebar = (props) => {
     };
 
     return (
-        <div className={ containerClassnames }>
+        <SidebarContainer className={ containerClassnames }>
             <div>
                 <img src={ logo } alt="TensorFlow logo"/>
                 <span>TensorFlow</span>
@@ -70,7 +79,7 @@ const Sidebar = (props) => {
                     ))
                 }
             </div>
-        </div>
+        </SidebarContainer>
     );
 };
 
