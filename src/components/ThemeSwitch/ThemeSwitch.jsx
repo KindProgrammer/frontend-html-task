@@ -4,9 +4,11 @@ import { useTheme } from '../../context/ThemeContext';
 const LightTheme = styled.button`
     height: 1.5rem;
     width: 1.5rem;
-    background: yellow;
     border-radius: 50%;
     outline: none;
+    background: ${({ theme }) => theme.sidebarBackground};
+    color: ${({ theme }) => theme.text};
+    border: none;
 `
 
 const DarkTheme = styled.button`
@@ -15,9 +17,13 @@ const DarkTheme = styled.button`
     background: blue;
     border-radius: 50%;
     outline: none;
+    background: ${({ theme }) => theme.sidebarBackground};
+    color: ${({ theme }) => theme.text};
+    border: none;
 `
 
 const ThemeSwitchContainer = styled.div`
+    margin-top: 1rem;
     width: 2rem;
     display: flex;
     gap: 0.5rem;

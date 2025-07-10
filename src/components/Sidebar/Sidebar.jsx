@@ -23,11 +23,62 @@ const bottomRoutes = [
 const SidebarContainer = styled.div`
     background: ${({ theme }) => theme.sidebarBackground};
     color: ${({ theme }) => theme.text};
-    width: 300px;
+    width: 200px;
+    height: 80vh;
+    border-radius: 10px;
+    border: 2px solid ${({ theme }) => theme.sidebarBackgroundHover};
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+`
+
+const LogoImg = styled.img`
+    width: 2rem;
+`
+
+const LogoContainer = styled.div`
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    margin-bottom: 3rem;
+`
+
+const ToggleArrow = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: -2rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: ${({ theme }) => theme.sidebarBackgroundHover};
+`
+
+const MenuSidebar = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+`
+
+const MenuItem = styled.div`
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-left: 1rem;
+`
+
+const ExtraInfo = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: auto;
 `
 
 const Sidebar = (props) => {
-    const { theme, toggleTheme } = useTheme();
+    const { theme } = useTheme();
     const { color } = props;
     const [isOpened, setIsOpened] = useState(false);
     const containerClassnames = classnames('sidebar', { opened: isOpened });
@@ -42,17 +93,17 @@ const Sidebar = (props) => {
 
     return (
         <SidebarContainer className={ containerClassnames }>
-            <div>
-                <img src={ logo } alt="TensorFlow logo"/>
+            <LogoContainer>
+                <LogoImg src={ logo } alt="TensorFlow logo"/>
                 <span>TensorFlow</span>
-                <div onClick={ toggleSidebar }>
+                <ToggleArrow onClick={ toggleSidebar }>
                     <FontAwesomeIcon icon={ isOpened ? 'angle-left' : 'angle-right' }/>
-                </div>
-            </div>
-            <div>
+                </ToggleArrow>
+            </LogoContainer>
+            <MenuSidebar>
                 {
                     routes.map(route => (
-                        <div
+                        <MenuItem
                             key={ route.title }
                             onClick={() => {
                                 goToRoute(route.path);
@@ -60,14 +111,14 @@ const Sidebar = (props) => {
                         >
                             <FontAwesomeIcon icon={ route.icon }/>
                             <span>{ route.title }</span>
-                        </div>
+                        </MenuItem>
                     ))
                 }
-            </div>
-            <div>
+            </MenuSidebar>
+            <ExtraInfo>
                 {
                     bottomRoutes.map(route => (
-                        <div
+                        <MenuItem
                             key={ route.title }
                             onClick={() => {
                                 goToRoute(route.path);
@@ -75,10 +126,10 @@ const Sidebar = (props) => {
                         >
                             <FontAwesomeIcon icon={ route.icon }/>
                             <span>{ route.title }</span>
-                        </div>
+                        </MenuItem>
                     ))
                 }
-            </div>
+            </ExtraInfo>
         </SidebarContainer>
     );
 };
