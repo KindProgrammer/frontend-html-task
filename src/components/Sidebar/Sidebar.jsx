@@ -35,22 +35,18 @@ const fadeOut = keyframes`
     to { opacity: 0; display: hidden; }
 `;
 
-// @keyframes fadeOut {
-//     from { opacity: 1; transform: scale(1); }
-//     to { opacity: 0; transform: scale(0.8); }
-//   }
-
 const SidebarContainer = styled.div`
     animation: ${appearDown} 0.6s ease-out forwards;
     background: ${({ theme }) => theme.sidebarBackground};
     color: ${({ theme }) => theme.text};
-    width: 200px;
+    width: ${props => props.$narrow ? '200px' : '2rem'};
     height: 80vh;
     border-radius: 10px;
     border: 2px solid ${({ theme }) => theme.sidebarBackgroundHover};
     padding: 1rem;
     display: flex;
     flex-direction: column;
+    transition: all 0.5s ease;
 `
 
 const LogoImg = styled.img`
@@ -86,13 +82,27 @@ const MenuSidebar = styled.div`
     gap: 1rem;
 `
 
+const LinkText = styled.span`
+    opacity: 0;
+    transition: 
+        opacity 0.3s ease,
+        height 0.3s ease;
+    
+    ${props => props.$narrow && `
+        opacity: 1;
+        transition: 
+            opacity 0.3s ease 0.1s;
+    `}
+`
+
 const MenuItem = styled.div`
     height: 1.5rem;
     opacity: 0;
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     align-items: center;
-    margin-left: 1rem;
+    transition: all 0.5s ease;
+    margin-left: 0.5rem;
     animation: ${appearDown} 0.6s ease-out forwards;
 `
 
@@ -104,20 +114,18 @@ const ExtraInfo = styled.div`
     animation: ${appearUp} 0.6s ease-out forwards;
 `
 
-
 const ExtraInfoItem = styled.div`
     height: 1.5rem;
     opacity: 0;
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     align-items: center;
-    margin-left: 1rem;
+    transition: all 0.5s ease;
+    margin-left: 0.5rem;
     animation: ${appearUp} 0.6s ease-out forwards;
 `
 
 const Sidebar = (props) => {
-    const { theme } = useTheme();
-    const { color } = props;
     const [isOpened, setIsOpened] = useState(true);
     const containerClassnames = classnames('sidebar', { opened: isOpened });
     let animationDelayCount = 0.1;
@@ -131,10 +139,10 @@ const Sidebar = (props) => {
     };
 
     return (
-        <SidebarContainer className={ containerClassnames }>
-            <LogoContainer style={{'animation-delay' : `${animationDelayCount += 0.1}s`}}>
+        <SidebarContainer  $narrow={isOpened} className={ containerClassnames }>
+            <LogoContainer style={{'animationDelay' : `${animationDelayCount += 0.1}s`}}>
                 <LogoImg src={ logo } alt="TensorFlow logo"/>
-                { isOpened ? <span>TensorFlow</span> : ''}
+                <LinkText $narrow={isOpened}>TensorFlow</LinkText>
                 <ToggleArrow onClick={ toggleSidebar }>
                     <FontAwesomeIcon icon={ isOpened ? 'angle-left' : 'angle-right' }/>
                 </ToggleArrow>
@@ -142,14 +150,14 @@ const Sidebar = (props) => {
             <MenuSidebar>
                 {
                     routes.map((route, index) => (
-                        <MenuItem style={{'animation-delay' : `${animationDelayCount += 0.1}s`}}
+                        <MenuItem $narrow={isOpened} style={{'animationDelay' : `${animationDelayCount += 0.1}s`}}
                             key={ route.title }
                             onClick={() => {
                                 goToRoute(route.path);
                             }}
                         >
-                            <FontAwesomeIcon icon={ route.icon }/>
-                            { isOpened ? <span>{ route.title }</span> : ''}
+                            <FontAwesomeIcon  icon={ route.icon }/>
+                            <LinkText $narrow={isOpened}>{ route.title }</LinkText>
                         </MenuItem>
                     ))
                 }
@@ -157,14 +165,14 @@ const Sidebar = (props) => {
             <ExtraInfo>
                 {
                     bottomRoutes.reverse().map(( route, index ) => (
-                        <ExtraInfoItem style={{'animation-delay' : `${animationDelayCount += 0.1}s`}}
+                        <ExtraInfoItem $narrow={isOpened} style={{'animationDelay' : `${animationDelayCount += 0.1}s`}}
                             key={ route.title }
                             onClick={() => {
                                 goToRoute(route.path);
                             }}
                         >
                             <FontAwesomeIcon icon={ route.icon }/>
-                            { isOpened ? <span>{ route.title }</span> : ''}
+                            <LinkText $narrow={isOpened}>{ route.title }</LinkText>
                         </ExtraInfoItem>
                     )).reverse()
                 }
