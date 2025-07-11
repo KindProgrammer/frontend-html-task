@@ -15,6 +15,7 @@ import {
     ExtraInfo,
     ExtraInfoItem,
 } from '../StyledComponents';
+import getReverseDelay from '../../utils';
 
 const routes = [
     { title: 'Home', icon: 'fas-solid fa-house', path: '/' },
@@ -74,10 +75,11 @@ const Sidebar = (props) => {
             </MenuSidebar>
             <ExtraInfo>
                 {
-                    bottomRoutes.reverse().map(( route ) => (
+                    bottomRoutes.map(( route, index ) => (
                         <ExtraInfoItem 
                             $narrow={isOpened}
                             $isActive={activePath === route.path}
+                            $delay={`${getReverseDelay(index, bottomRoutes.length)}s`}
                             style={{'animationDelay' : `${animationDelayCount += 0.1}s`}}
                             key={ route.title }
                             onClick={() => {
@@ -87,7 +89,7 @@ const Sidebar = (props) => {
                             <FontAwesomeIcon icon={ route.icon }/>
                             <LinkText $narrow={isOpened}>{ route.title }</LinkText>
                         </ExtraInfoItem>
-                    )).reverse()
+                    ))
                 }
             </ExtraInfo>
         </SidebarContainer>

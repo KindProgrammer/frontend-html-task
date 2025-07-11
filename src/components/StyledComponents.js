@@ -136,6 +136,7 @@ export const ExtraInfoItem = styled.div`
     transition: all 0.5s ease;
     padding: 0.5rem;
     border-radius: 10px;
+    animation-delay: ${props => props.$delay || '0s'};
     animation: ${appearUp} 0.6s ease-out forwards;
     color: ${props => props.$isActive 
         ? props.theme.textActive 
