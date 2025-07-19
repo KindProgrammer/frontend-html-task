@@ -113,9 +113,15 @@ export const MenuItem = styled.div`
         ? props.theme.textActive 
         : 'none'
         };
+    background-color: ${props => props.$isActive 
+        ? props.theme.sidebarBackgroundActive
+        : 'none'
+        };
 
     &:hover {
         color: ${({ theme }) => theme.textHover};
+        background-color: ${({ theme }) => theme.sidebarBackgroundHover};
+        cursor: pointer;
     }
 `
 
@@ -139,11 +145,17 @@ export const ExtraInfoItem = styled.div`
     animation-delay: ${props => props.$delay || '0s'};
     animation: ${appearUp} 0.6s ease-out forwards;
     color: ${props => props.$isActive 
-        ? props.theme.textActive 
+        ? props.theme.textActive
+        : 'none'
+        };
+    background-color: ${props => props.$isActive 
+        ? props.theme.sidebarBackgroundActive
         : 'none'
         };
 
     &:hover {
         color: ${({ theme }) => theme.textHover};
+        background-color: ${({ theme }) => theme.sidebarBackgroundHover};
+        cursor: pointer;
     }
 `
